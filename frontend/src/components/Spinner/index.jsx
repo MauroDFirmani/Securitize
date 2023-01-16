@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from '@mui/material';
 
-const withSpinner = (Component) => (props) => {
+export const withSpinner = (Component) => (props) => {
   const {isLoading, ...otherProps} = props;
   return (
     <>
@@ -14,5 +14,3 @@ const withSpinner = (Component) => (props) => {
     </>
   );
 };
-
-export default withSpinner;

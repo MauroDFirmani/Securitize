@@ -4,15 +4,16 @@ import Select from '@mui/material/Select';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { FormControl, InputLabel, MenuItem } from '@mui/material';
+import { useCallback } from 'react';
 
 export default function BalanceCard({currency, setCurrency, balance}) {
   
   const [state, setState] = useState(currency);
   
-  const handleChange = (event) => {
+  const handleChange = useCallback((event) => {
     setState(event.target.value);
     setCurrency(event.target.value)
-  };  
+  },[setCurrency]);  
 
   return (
     <Card sx={{ minWidth: "100%", background: "#f8f8f8", minHeight: "150px" }}>

@@ -1,26 +1,21 @@
-import { useState, useEffect } from "react";
 import {
   Box,
-  CircularProgress,
   Container,
 } from "@mui/material";
-import Wallets from "../components/Wallets";
-import NavBar from "../components/NavBar";
+import { NavBar } from "../components/NavBar";
+import { withSpinner } from "../components/Spinner"
+import { Wallets } from "../components/Wallets/Wallets";
 import { useGetWallets } from "../hooks/useWallets";
 
-const Home=()=> {
-    const [wallets, setWallets] = useState()
-    const { data, refetch } = useGetWallets();
+const WalletsWithSpinner = withSpinner(Wallets)
 
-    useEffect(() => {
-        setWallets(data)
-    }, [data])
-    
+const Home=()=> {
+    const { data, isLoading } = useGetWallets();    
     return (
             <Container fixed>
                 <NavBar />
                 <Box marginTop={"35px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                    {!!wallets ? <Wallets wallets={wallets} />  : <CircularProgress />}
+                    <WalletsWithSpinner isLoading={isLoading} wallets={data} />
                 </Box>
             </Container>
     );

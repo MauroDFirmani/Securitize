@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import queryClient from "./config/cache";
 import Home from "./views/Home";
+import './App.css'
 
 const themeDark = createTheme({
   palette: {

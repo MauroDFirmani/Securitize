@@ -1,6 +1,6 @@
 import { Box, Modal, Fade, IconButton } from '@mui/material';
 import { CloseRounded }from '@mui/icons-material';
-import UseFormControl from './Form/Form';
+import UseFormControl from '../Form';
 
 
 const style = {

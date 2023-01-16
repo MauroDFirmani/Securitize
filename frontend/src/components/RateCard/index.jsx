@@ -3,31 +3,12 @@ import CardContent from '@mui/material/CardContent';
 import {EditRounded, DoneRounded, Close } from '@mui/icons-material';
 import { TextField } from '@mui/material';
 import { red } from '@mui/material/colors';
-import { useState, useEffect } from 'react';
-import { useUpdateWallet } from '../hooks/useWallets';
+import { useState, useEffect, useCallback } from 'react';
+import { useUpdateWallet } from '../../hooks/useWallets';
 
-
-
-/*const useStyles = makeStyles({
-  input: {
-    '& input[type=number]': {
-        '-moz-appearance': 'textfield'
-    },
-    '& input[type=number]::-webkit-outer-spin-button': {
-        '-webkit-appearance': 'none',
-        margin: 0
-    },
-    '& input[type=number]::-webkit-inner-spin-button': {
-        '-webkit-appearance': 'none',
-        margin: 0
-    }
-  },
-});
-*/
 export default function RateCard({exchangeRate:{currency, value}, address, refetch }) {
   const [isEdit, setIsEdit] = useState(false)
   const [auxValue, setAuxValue] = useState(value)
-  //const classes = useStyles();
   const { mutateAsync } = useUpdateWallet()
   
   useEffect(() => {
@@ -35,21 +16,23 @@ export default function RateCard({exchangeRate:{currency, value}, address, refet
   }, [value])
   
 
-  const handleChange=(e)=>{
-    setAuxValue(e.target.value)
-  }
+  const handleChange=useCallback((e)=>{
+    if(e.target.value>=0){
+      setAuxValue(e.target.value)
+    }
+  },[])
 
-  const handleDone=()=>{
+  const handleDone=useCallback(()=>{
     setIsEdit(!isEdit)
     const newExchangeRate ={currency, value: auxValue}
     mutateAsync({address, newExchangeRate})
     refetch()
-  }
+  },[address, auxValue, currency, isEdit, mutateAsync, refetch])
 
-  const handleCancel=()=>{
+  const handleCancel=useCallback(()=>{
     setAuxValue(value)
     setIsEdit(!isEdit)
-  }
+  },[isEdit, value])
 
   return (
     <Card sx={{ minWidth: "100%", background: "#f8f8f8", minHeight: "150px"}}>
@@ -65,10 +48,10 @@ export default function RateCard({exchangeRate:{currency, value}, address, refet
           </div>
         <TextField
           id="rate"
-          //className={classes.input}
           style={{marginTop: "20px"}}
           inputProps={{ 
             type: 'number',
+            min: 0,
           }}
           value={auxValue}
           fullWidth
@@ -76,7 +59,7 @@ export default function RateCard({exchangeRate:{currency, value}, address, refet
           disabled={!isEdit}
           onChange={handleChange}
           onWheel={event => event.target.blur()}
-        />
+      />
       </CardContent>
     </Card>
   );

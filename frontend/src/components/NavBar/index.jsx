@@ -1,25 +1,25 @@
 import { useState } from 'react';
 import {AppBar, Box, Toolbar, IconButton, Tooltip } from '@mui/material';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
-import WalletModal from './Modal';
+import WalletModal from '../Modal';
+import { useCallback } from 'react';
 
-export default function NavBar() {
+export function NavBar() {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleChange = useCallback(() => setOpen(prevState => !prevState),[]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
         <Toolbar>
             <Tooltip title="Add Wallet">
-                <IconButton  onClick={handleOpen}  color="inherit">
+                <IconButton  onClick={handleChange}  color="inherit">
                     <AddCircleRoundedIcon fontSize='large'/>
                 </IconButton>
           </Tooltip>
         </Toolbar>
       </AppBar>
-      <WalletModal open={open} handleClose={handleClose} />
+      <WalletModal open={open} handleClose={handleChange} />
     </Box>
   );
 }

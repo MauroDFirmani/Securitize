@@ -1,15 +1,15 @@
 import { Alert, CircularProgress, Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useGetWalletInfoByAddress } from "../hooks/useWallets";
-import RateCard from "./RateCard";
-import BalanceCard from "./BalanceCard";
+import { useGetWalletInfoByAddress } from "../../hooks/useWallets";
+import RateCard from "../RateCard";
+import BalanceCard from "../BalanceCard";
 
 const InfoAlert = (isOld) =>{
     return isOld ? <Alert severity="warning">Wallet is old!</Alert> : <Alert severity="success">Wallet up to date!</Alert> 
 }
 
-const Wallet = ({address}) => {
+export const Wallet = ({address}) => {
   const [currency, setCurrency] = useState('USD')
   const [exchangesRate, setExchangesRate] = useState()
   const [currentExchangeRate, setCurrentExchangeRate] = useState()
@@ -49,5 +49,3 @@ const Wallet = ({address}) => {
     : <CircularProgress />
   );
 };
-
-export default Wallet;
